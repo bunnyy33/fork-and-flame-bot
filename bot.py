@@ -32,7 +32,9 @@ def send_message(to, message):
         "to": to,
         "body": message
     }
-    requests.post(url, data=payload)
+    response = requests.post(url, data=payload)
+    print(f"Sending to: {to}")
+    print(f"Response: {response.text}")
 
 def send_review_request(to):
     message = (
