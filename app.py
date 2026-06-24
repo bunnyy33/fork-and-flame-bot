@@ -6,15 +6,18 @@ app = Flask(__name__)
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.get_json(force=True) or request.form.to_dict()
-    print(f"ALL DATA RECEIVED: {data}")
+    payload = request.get_json(force=True) or {}
+    print(f"ALL DATA RECEIVED: {payload}")
     
+    data = payload.get("data", {})
     sender = data.get("from", "")
     message = data.get("body", "").strip().lower()
+    from_me = data.get("fromMe", True)
+    
     print(f"Sender: {sender}")
     print(f"Message: {message}")
     
-    if sender and message:
+    if sender and message and not from_me:
         handle_message(sender, message)
     
     return "OK", 200
