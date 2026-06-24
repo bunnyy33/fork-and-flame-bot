@@ -6,8 +6,9 @@ app = Flask(__name__)
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.form
-    print(f"ALL DATA RECEIVED: {dict(data)}")
+    data = request.get_json(force=True) or request.form.to_dict()
+    print(f"ALL DATA RECEIVED: {data}")
+    
     sender = data.get("from", "")
     message = data.get("body", "").strip().lower()
     print(f"Sender: {sender}")
