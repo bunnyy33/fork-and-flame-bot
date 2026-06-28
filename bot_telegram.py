@@ -1,5 +1,28 @@
 from sheets import save_reservation
 from datetime import datetime, timedelta
+import os
+import requests
+from dotenv import load_dotenv
+load_dotenv()
+
+OWNER_CHAT_ID = os.getenv("OWNER_CHAT_ID")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+def notify_owner(name, party_size, date, time, user_id):
+    message = (
+        f"🔔 *New Reservation at Fork & Flame!*\n\n"
+        f"👤 Name: {name}\n"
+        f"👥 Party Size: {party_size}\n"
+        f"📅 Date: {date}\n"
+        f"🕐 Time: {time}\n"
+        f"📱 Customer ID: {user_id}"
+    )
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    requests.post(url, data={
+        "chat_id": OWNER_CHAT_ID,
+        "text": message,
+        "parse_mode": "Markdown"
+    })
 
 user_sessions = {}
 
@@ -96,6 +119,14 @@ async def handle_message(user_id, message):
                 session["party_size"],
                 session["date"],
                 session["time"]
+            )
+
+            notify_owner(
+                session["name"],
+                session["party_size"],
+                session["date"],
+                session["time"],
+                user_id
             )
 
             confirmation = (
