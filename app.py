@@ -1,27 +1,39 @@
 import os
-from flask import Flask, request
-from bot import handle_message
+from dotenv import load_dotenv
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from bot_telegram import handle_message
 
-app = Flask(__name__)
+load_dotenv()
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    payload = request.get_json(force=True) or {}
-    print(f"ALL DATA RECEIVED: {payload}")
-    
-    data = payload.get("data", {})
-    sender = data.get("from", "")
-    message = data.get("body", "").strip().lower()
-    from_me = data.get("fromMe", True)
-    
-    print(f"Sender: {sender}")
-    print(f"Message: {message}")
-    
-    if sender and message and not from_me:
-        handle_message(sender, message)
-    
-    return "OK", 200
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "👋 Welcome to Fork & Flame! 🔥\n\n"
+        "How can I help you today?\n\n"
+        "📌 *Book a table* — type 'reserve'\n"
+        "🕐 *Our hours* — type 'hours'\n"
+        "📍 *Location* — type 'location'\n"
+        "🍽️ *Menu* — type 'menu'\n"
+        "🥗 *Vegetarian options* — type 'vegetarian'\n"
+        "🚗 *Parking* — type 'parking'\n"
+        "📶 *WiFi* — type 'wifi'",
+        parse_mode="Markdown"
+    )
+
+async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_id = str(update.message.from_user.id)
+    message = update.message.text.strip().lower()
+    response = await handle_message(user_id, message)
+    await update.message.reply_text(response, parse_mode="Markdown")
+
+def main():
+    app = Application.builder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
+    print("Fork & Flame Bot is running...")
+    app.run_polling()
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    main()
