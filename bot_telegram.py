@@ -6,8 +6,36 @@ user_sessions = {}
 FAQS = {
     "hours": "🕐 Fork & Flame is open:\nMon-Fri: 11AM - 11PM\nSat-Sun: 10AM - 12AM",
     "location": "📍 123 Flame Street, London, UK\nGoogle Maps: https://maps.google.com",
-    "menu": "🍽️ View our full menu here: https://forknflame.com/menu",
-    "vegetarian": "🥗 Yes! We have a dedicated vegetarian menu. Ask our staff for details.",
+    "menu": (
+        "🍽️ *Fork & Flame Menu*\n\n"
+        "*🥩 Mains*\n"
+        "• Grilled Ribeye Steak — £28\n"
+        "• Pan Seared Salmon — £22\n"
+        "• Chicken Marsala — £18\n"
+        "• Lamb Chops — £26\n\n"
+        "*🍝 Pasta & Risotto*\n"
+        "• Truffle Mushroom Risotto — £16\n"
+        "• Lobster Linguine — £24\n\n"
+        "*🍰 Desserts*\n"
+        "• Chocolate Lava Cake — £8\n"
+        "• Tiramisu — £7\n\n"
+        "Type *'vegetarian'* to see our veg menu 🥗"
+    ),
+    "vegetarian": (
+        "🥗 *Fork & Flame Vegetarian Menu*\n\n"
+        "*🌿 Starters*\n"
+        "• Burrata & Heirloom Tomatoes — £10\n"
+        "• Roasted Pepper Soup — £7\n\n"
+        "*🍽️ Mains*\n"
+        "• Wild Mushroom Risotto — £15\n"
+        "• Spinach & Ricotta Ravioli — £14\n"
+        "• Grilled Halloumi Stack — £13\n"
+        "• Butternut Squash Curry — £13\n\n"
+        "*🍰 Desserts*\n"
+        "• Vanilla Panna Cotta — £7\n"
+        "• Berry Cheesecake — £8\n\n"
+        "All vegetarian dishes are freshly prepared daily 🌱"
+    ),
     "parking": "🚗 Free parking available behind the restaurant.",
     "wifi": "📶 Free WiFi available. Password given at the table."
 }
