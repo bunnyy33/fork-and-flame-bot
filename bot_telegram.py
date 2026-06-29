@@ -18,11 +18,13 @@ def notify_owner(name, party_size, date, time, user_id):
         f"📱 Customer ID: {user_id}"
     )
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    requests.post(url, data={
+    print(f"Sending notification to chat_id: {OWNER_CHAT_ID}")
+    response = requests.post(url, data={
         "chat_id": OWNER_CHAT_ID,
         "text": message,
         "parse_mode": "Markdown"
     })
+    print(f"Notification response: {response.json()}")
 
 user_sessions = {}
 
