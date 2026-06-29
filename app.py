@@ -23,6 +23,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message or not update.message.from_user:
+        return
     user_id = str(update.message.from_user.id)
     message = update.message.text.strip().lower()
     response = await handle_message(user_id, message)
